@@ -214,5 +214,5 @@ def fresh_checker(instance):
     if instance_date > delta:
         return True
     else:
-        # delete form i ciap
+        instance.delete()
         return False

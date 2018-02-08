@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from . import views
+from . import views, api_views
 from django.contrib.auth import views as auth_views
 from django.contrib import admin
 
@@ -26,7 +26,11 @@ urlpatterns = [
     url(r'^details_file/(?P<id>\d+)/$', views.ActionFile.as_view(), name='customer_file_details'),
 
 
-    url(r'^upload_info/(?P<id>.+)/$', views.upload_info, name='upload_info'),                    #poprawic i zrobic poludzku
-    url(r'^upload_info_file/(?P<id>.+)/$', views.upload_info_file, name='upload_info_file'),
+    url(r'^upload_info/(?P<id>d+)/$', views.upload_info, name='upload_info'),                    #poprawic i zrobic poludzku
+    url(r'^upload_info_file/(?P<id>\d+)/$', views.upload_info_file, name='upload_info_file'),
+
+    url(r'^urls/$', api_views.url_add),
+    url(r'^urls/(?P<pk>[0-9]+)/$', api_views.get_url),
+    # url(r'^get_url/(?P<password>.+)/(?P<id>\d+)/$', api_views.url_get_by_id),
 ]
 
