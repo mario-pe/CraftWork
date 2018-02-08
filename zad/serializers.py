@@ -9,6 +9,9 @@ class CustomerUrlSerializer(serializers.ModelSerializer):
 
 
 class CustomerFileSerializer(serializers.ModelSerializer):
+
+    file = serializers.FileField(max_length=None, use_url=True)
+
     class Meta:
         model = CustomerFile
         fields = ('file', 'password', 'date', 'counter')

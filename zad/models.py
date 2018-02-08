@@ -17,7 +17,8 @@ class CustomerUrl(models.Model):
 
 
 class CustomerFile(models.Model):
-    file = models.FileField()
+    # file = models.FileField(upload_to=)
+    file = models.FileField(upload_to="Doc/", default='Doc/None/no-doc.pdf')
     password = models.CharField(max_length=10)
     date = models.DateTimeField(default=datetime.now())
     counter = models.IntegerField(default=0, blank=True, null=True)
