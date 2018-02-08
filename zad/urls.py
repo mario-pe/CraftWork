@@ -29,8 +29,8 @@ urlpatterns = [
     url(r'^upload_info/(?P<id>d+)/$', views.upload_info, name='upload_info'),                    #poprawic i zrobic poludzku
     url(r'^upload_info_file/(?P<id>\d+)/$', views.upload_info_file, name='upload_info_file'),
 
-    url(r'^urls/$', api_views.url_add),
-    url(r'^urls/(?P<pk>[0-9]+)/$', api_views.get_url),
-    # url(r'^get_url/(?P<password>.+)/(?P<id>\d+)/$', api_views.url_get_by_id),
+    url(r'^urls/$', api_views.Url.as_view()),
+    #url(r'^urls/(?P<pk>[0-9]+)/(?P<password>.+)/$', api_views.get_url),
+    # url(r'^get_url/$', api_views.get_url),
 ]
 
