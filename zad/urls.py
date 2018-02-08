@@ -15,9 +15,7 @@ app_name = 'zad'
 
 urlpatterns = [
     # index /zad
-
-    url(r'^$', include(router.urls)),
-    # url(r'^$', views.index, name='index'),
+    url(r'^$', views.index, name='index'),
     url(r'^home/$', views.home, name='home'),
 
     url(r'^login/$', auth_views.login, name='login'),
@@ -39,6 +37,7 @@ urlpatterns = [
 
     url(r'^urls/$', api_views.Url.as_view()),
     url(r'^files/$', api_views.File.as_view()),
+    url(r'^archive/(?P<date_from>.+)/(?P<date_to>.+)/$', api_views.ActivityArchiveApi.as_view()),
     #url(r'^urls/(?P<pk>[0-9]+)/(?P<password>.+)/$', api_views.get_url),
     # url(r'^urls/$', api_views.url_add),
 

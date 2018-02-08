@@ -1,4 +1,7 @@
-from django.http import HttpResponse
+from datetime import datetime
+import datetime as idt
+
+from django.http import HttpResponse, JsonResponse
 from rest_framework import status
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.parsers import JSONParser
@@ -7,8 +10,8 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import CustomerUrl, CustomerFile
-from .serializers import CustomerUrlSerializer, CustomerFileSerializer
+from .models import CustomerUrl, CustomerFile, ActivityArchive
+from .serializers import CustomerUrlSerializer, CustomerFileSerializer, ActivityArchiveSerializer
 
 
 class Url(APIView):
@@ -27,6 +30,7 @@ class Url(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
     permission_classes = (AllowAny,)
     def put(self, request, format=None):
@@ -71,10 +75,9 @@ class File(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    permission_classes = (AllowAny,)
+    # permission_classes = (AllowAny,)
     def put(self, request, format=None):
         data = JSONParser().parse(request)
-
         request_password = data['password']
         request_url = data['url']
         print(request_password)
@@ -99,4 +102,31 @@ class File(APIView):
         return Response(serializer.errors, status=400)
 
 
+class ActivityArchiveApi(APIView):
+    def get(self, requset, date_from, date_to):
+        a = datetime.strptime(str(date_from), "%Y-%m-%d")
+        b = datetime.strptime(str(date_to), "%Y-%m-%d")
+        delta = b - a;
+        response = {}
+
+        for x in range(0, delta.days + 1 ):
+           b = a.__str__()
+           b = b[:-9]
+           archive = ActivityArchive.objects.filter(date=b).first()
+           if archive is not None:
+               url = archive.url_activity
+               file = archive.file_activity
+               result = activity_statistcs(url, file)
+               r = {b.__str__():{'files': result[0], 'links': result[1]}}
+           else:
+               r = {b.__str__(): {'files': 0, 'links': 0}}
+           a =  a + idt.timedelta(hours=24)
+           response[b.__str__()] = r
+
+        return JsonResponse(response)
+
+
+def activity_statistcs(urls, files):
+
+    return [len(set(urls.split(','))), len(set(files.split(',')))]
 

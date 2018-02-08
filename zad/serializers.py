@@ -1,11 +1,11 @@
 from rest_framework import serializers
-from .models import CustomerUrl, CustomerFile
+from .models import CustomerUrl, CustomerFile, ActivityArchive
 
 
 class CustomerUrlSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomerUrl
-        fields = ('url', 'password', 'date', 'counter')
+        fields = ('url',)
 
 
 class CustomerFileSerializer(serializers.ModelSerializer):
@@ -14,4 +14,11 @@ class CustomerFileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomerFile
-        fields = ('file', 'password', 'date', 'counter')
+        fields = ('file',)
+
+
+class ActivityArchiveSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ActivityArchive
+        fields = ('date', 'url_activity', 'file_activity')
